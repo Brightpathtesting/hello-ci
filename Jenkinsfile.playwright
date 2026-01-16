@@ -1,0 +1,46 @@
+pipeline {
+  agent any
+
+  environment {
+    CI = "true"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Playwright E2E') {
+      steps {
+        dir('playwright-jenkins-demo') {
+          sh '''
+            node -v
+            npm -v
+            npm ci
+            npx playwright install --with-deps || npx playwright install
+            npm run test:e2e:report
+          '''
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      dir('playwright-jenkins-demo') {
+        archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+        publishHTML(target: [
+          allowMissing: true,
+          alwaysLinkToLastBuild: true,
+          keepAll: true,
+          reportDir: 'playwright-report',
+          reportFiles: 'index.html',
+          reportName: 'Playwright HTML Report'
+        ])
+      }
+    }
+  }
+}
+
