@@ -16,11 +16,19 @@ pipeline {
       steps {
         dir('playwright-jenkins-demo') {
           sh '''
-            node -v
-            npm -v
-            npm ci
-            npx playwright install --with-deps || npx playwright install
-            npm run test:e2e:report
+             set -euxo pipefail
+
+        # Homebrew PATH fuer Jenkins (Apple Silicon: /opt/homebrew/bin, Intel: /usr/local/bin)
+        export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+        which node || true
+        which npm || true
+        node -v
+        npm -v
+
+        npm ci
+        npx playwright install
+        npm run test:e2e:report
           '''
         }
       }
