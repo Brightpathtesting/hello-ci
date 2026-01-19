@@ -5,10 +5,11 @@ export default defineConfig({
   timeout: 30_000,
   retries: process.env.CI ? 1 : 0,
 
-  reporter: [
-    ["html", { open: "never" }],
-    ["junit", { outputFile: "test-results/junit.xml" }]
-  ],
+ reporter: [
+  ['html', { outputFolder: 'playwright-report', open: 'never' }],
+  ['junit', { outputFile: 'test-results/junit.xml' }],
+],
+
 
   use: {
     headless: true,

@@ -35,21 +35,16 @@ pipeline {
     }
   }
 
-  post {
+ post {
   always {
     dir('playwright-jenkins-demo') {
       archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
       archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
-      junit 'test-results/junit.xml'
 
-      script {
-        sh 'ls -la'
-        sh 'ls -la playwright-report || true'
-        sh 'ls -la playwright-report/index.html || true'
-      }
+      junit testResults: 'test-results/junit.xml', allowEmptyResults: true
 
       publishHTML(target: [
-        allowMissing: false,
+        allowMissing: true,
         alwaysLinkToLastBuild: true,
         keepAll: true,
         reportDir: 'playwright-report',
@@ -59,6 +54,7 @@ pipeline {
     }
   }
 }
+
 
 }
 
