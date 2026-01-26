@@ -14,9 +14,12 @@ jobs:
 
       - name: Create artifact
         run: |
-          mkdir artifact
-          echo "Build from commit $GITHUB_SHA" > artifact/info.txt
-          zip -r artifact.zip artifact
+           mkdir -p artifact
+           echo "repo=${GITHUB_REPOSITORY}" > artifact/build-info.txt
+           echo "branch=${GITHUB_REF_NAME}" >> artifact/build-info.txt
+           echo "sha=${GITHUB_SHA}" >> artifact/build-info.txt
+           date -u >> artifact/build-info.txt
+           zip -r artifact.zip artifact
 
       - name: Upload artifact to S3
         env:
@@ -24,4 +27,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws s3 cp artifact.zip s3://${{ secrets.S3_BUCKET }}/artifact-${GITHUB_SHA}.zip
+          aws s3 cp artifact.zip s3://${{ secrets.S3_BUCKET }}/hello-ci/${GITHUB_REF_NAME}/artifact-${GITHUB_SHA}.zip
+
