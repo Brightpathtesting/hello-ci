@@ -1,3 +1,5 @@
+
+import { test, expect } from "@playwright/test";
 test.use({ viewport: { width: 375, height: 812 } });
 
 test('Mobile Ansicht funktioniert', async ({ page }) => {

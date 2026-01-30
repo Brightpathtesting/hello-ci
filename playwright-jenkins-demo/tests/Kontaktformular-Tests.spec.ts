@@ -1,3 +1,4 @@
+import { test, expect } from "@playwright/test";
 test('Kontaktformular validiert Pflichtfelder', async ({ page }) => {
   await page.goto('https://brightpathsolutions.de/kontakt');
 

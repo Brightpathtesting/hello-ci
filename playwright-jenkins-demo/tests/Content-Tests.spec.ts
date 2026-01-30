@@ -1,3 +1,4 @@
+import { test, expect } from "@playwright/test";
 test('Kernbotschaft ist sichtbar', async ({ page }) => {
   await page.goto('https://brightpathsolutions.de');
 

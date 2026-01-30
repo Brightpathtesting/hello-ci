@@ -1,3 +1,5 @@
+
+import { test, expect } from "@playwright/test";
 test('Navigation funktioniert', async ({ page }) => {
   await page.goto('https://brightpathsolutions.de');
 

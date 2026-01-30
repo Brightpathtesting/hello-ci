@@ -1,3 +1,5 @@
+import { test, expect } from "@playwright/test";
+
 test('Seite lädt unter 3 Sekunden', async ({ page }) => {
   const start = Date.now();
   await page.goto('https://brightpathsolutions.de');
